@@ -1,0 +1,41 @@
+VideosDB
+
+Moscalu Cosmin Andrei
+
+Descriere generala:
+
+	Filmele, serialele, actorii si utilizatorii fac parte dintr-o clasa singleton numita
+	"Repository" care reprezinta baza de date.
+
+	Pe langa acestea, in baza de date se mai gasesc si actiunile care se vor executa asupra
+	acesteia, fiecare actiune este rulabila, la momentul rularii se determina ce tip de actiune
+	este si se va apela metoda care implementeaza acel tip de actiune, de exemplu comanda
+	contine metodele favorite, view si rating, metoda runAction ruleaza actiunea.
+
+	Comenzile, cautarile si recomandarile sunt actiuni. O actiune poate exista doar sub
+	forma de comanda, cautare sau recomandare. Cautarile sunt mai departe particularizate
+	in functie de obiectele asupra carora are loc cautarea, de exemplu asupra actorilor.
+
+Flow si interactiuni:
+
+	In functia main, se cere o instanta a bazei de date si dupa se cere initializarea bazei
+	de date. Initializarea consta initial in crearea obiectelor corespunzatoare fiecarei
+	entitati: actorii, utilizatorii, filmele si serialele. In faza a doua se instantiaza
+	actiunile, baza de date se comporta ca si un factory de actiuni si va determina
+	clasa specifica din care va face parte obiectul. De exemplu, daca se cere un query
+	asupra actorilor, atunci repo-ul va instantia un obiect de tip QueryActor.
+
+	Dupa ce s-a realizat instantierea, urmeaza rularea actiunilor. In cadrul unei actiuni
+	se determina ce tip este de fapt acea actiune si se va apela metoda corespunzatoare.
+	Rezultatele actiunilor sunt scrise intr-un array JSON.
+
+	Datorita faptului ca baza de date este de tip singleton, exista o interactiune puternica
+	in special intre aceasta si actiuni, actiunile vor putea influenta baza de date, dar
+	si celelalte entitati pe care le contine, daca este nevoie. In rest, toate
+	celelalte obiecte pe care le contine baza de date nu interactioneaza inapoi cu aceasta.
+	De exemplu, un film nu cere o instanta la baza de date dar are o metoda care ii determina
+	rating-ul. Datorita faptului ca celelalte entitati nu interactioneaza cu baza de date,
+	anumite prelucrari se realizeaza in baza de date. In cazul unui actor de exemplu, pentru
+	determinarea rating-ului acestuia trebuie acces la toate videoclipurile in care a participat,
+	doar ca aceste sunt tinute in baza de date. De aceea, rating-ul actorului se calculeaza
+	in baza de date.
